@@ -1,1 +1,1 @@
-export { Form } from './ui/form';
+export { SignInForm as Form } from "./ui/form";

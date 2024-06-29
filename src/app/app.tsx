@@ -1,25 +1,25 @@
 import { Outlet } from "@tanstack/react-router";
+import { Suspense } from "react";
 
 // components
 import { Toaster } from "@/shared/ui/sonner/sonner";
+import { SuspenseLoader } from "@/shared/ui/suspense-loader";
 
 // config
-import { ModeToggle } from "@/shared/ui/mode-toggle/mode-toggle";
 import { RootProvider } from "./providers";
 
 // styles
 import "./styles/globals.css";
 
 function App() {
-
   return (
     <RootProvider>
-      <h1 className="text-3xl font-bold text-green-500">Madrasa CRM</h1>
-      <Outlet />
+      <Suspense fallback={<SuspenseLoader />}>
+        <Outlet />
+      </Suspense>
       <Toaster />
-      <ModeToggle />
     </RootProvider>
-  )
+  );
 }
 
-export default App
+export default App;
