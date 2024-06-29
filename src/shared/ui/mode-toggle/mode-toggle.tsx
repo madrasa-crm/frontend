@@ -1,13 +1,13 @@
 import { Moon, Sun } from "lucide-react";
 
 // components
-import { Button } from "@/components/button";
+import { Button } from "@/shared/ui/button/button";
 import {
-    DropdownMenu,
-    DropdownMenuContent,
-    DropdownMenuItem,
-    DropdownMenuTrigger,
-} from "@/components/dropdown-menu";
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/shared/ui/dropdown-menu/dropdown-menu";
 
 // hooks
 import { useTheme } from "@/app/providers/theme";

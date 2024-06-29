@@ -1,10 +1,10 @@
 import { Outlet } from "@tanstack/react-router";
 
 // components
-import { Toaster } from "@/shared/ui/sonner";
+import { Toaster } from "@/shared/ui/sonner/sonner";
 
 // config
-import { ModeToggle } from "@/shared/ui/mode-toggle";
+import { ModeToggle } from "@/shared/ui/mode-toggle/mode-toggle";
 import { RootProvider } from "./providers";
 
 // styles
