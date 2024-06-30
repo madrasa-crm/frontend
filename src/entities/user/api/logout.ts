@@ -1,9 +1,17 @@
-import { instance } from "@/shared/api/axios-instance";
+import { useNavigate } from "@tanstack/react-router";
+
+// store
+import { useCore } from "@/shared/model/use-core";
 
 export const logout = () => {
+  const navigate = useNavigate();
+  const reset = useCore((state) => state.reset);
   return {
     handleLogout: async () => {
-      await instance.post("/auth/logout");
+      reset();
+      navigate({
+        to: "/",
+      });
     },
   };
 };

@@ -6,6 +6,7 @@ import { getMenuList } from "@/helpers/get-menu-list";
 import { cn } from "@/helpers/utils";
 
 // components
+import { logout } from "@/entities/user";
 import { Button } from "@/shared/ui/button";
 import { ScrollArea } from "@/shared/ui/scroll-area";
 import {
@@ -21,8 +22,8 @@ interface MenuProps {
 }
 
 export const Menu = ({ isOpen }: MenuProps) => {
+  const { handleLogout } = logout();
   const { pathname } = useLocation();
-  console.log(pathname);
   const menuList = getMenuList(pathname);
 
   return (
@@ -109,7 +110,7 @@ export const Menu = ({ isOpen }: MenuProps) => {
               <Tooltip delayDuration={100}>
                 <TooltipTrigger asChild>
                   <Button
-                    onClick={() => {}}
+                    onClick={() => handleLogout()}
                     variant="outline"
                     className="w-full justify-center h-10 mt-5"
                   >
