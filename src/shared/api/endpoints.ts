@@ -1,5 +1,5 @@
 export const endpoints = {
   auth: {
-    signIn: "/auth/user/login",
+    signIn: "api/auth/login",
   },
 } as const;

@@ -1,6 +1,9 @@
 import { createRootRoute, createRoute, redirect } from "@tanstack/react-router";
 import { lazy } from "react";
 
+// store
+import { useCore } from "@/shared/model/use-core";
+
 // components
 import App from "@/app/app";
 
@@ -17,7 +20,8 @@ const indexRoute = createRoute({
   path: "/",
   component: Cabinet,
   beforeLoad: async ({ location }) => {
-    const token = localStorage.getItem("token");
+    const token = useCore.getState().userToken;
+
     if (!token) {
       throw redirect({
         to: "/auth/login",
@@ -25,11 +29,10 @@ const indexRoute = createRoute({
           redirect: location.href,
         },
       });
-    }
-    else {
-      if(location.pathname === "/") {
+    } else {
+      if (location.pathname === "/") {
         throw redirect({
-          to: "/dashboard"
+          to: "/dashboard",
         });
       }
     }
@@ -46,9 +49,13 @@ export const loginRoute = createRoute({
   component: SignIn,
 });
 
+export const dashboardRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/dashboard",
+  component: () => <div>Dashboard</div>,
+});
+
 export const routeTree = rootRoute.addChildren([
-  indexRoute.addChildren([
-    
-  ]),
+  indexRoute.addChildren([dashboardRoute]),
   authRoute.addChildren([loginRoute]),
 ]);
