@@ -1,9 +1,14 @@
+import { Outlet } from "@tanstack/react-router";
+
+// widgets
+import { AdminPanelLayout } from "@/widgets/layout/root";
+
 const Cabinet = () => {
   return (
-    <div>
-      Cabinet
-    </div>
-  )
-}
+    <AdminPanelLayout>
+      <Outlet />
+    </AdminPanelLayout>
+  );
+};
 
-export default Cabinet
+export default Cabinet;

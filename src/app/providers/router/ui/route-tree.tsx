@@ -18,7 +18,6 @@ const rootRoute = createRootRoute({
 const indexRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: "/",
-  component: Cabinet,
   beforeLoad: async ({ location }) => {
     const token = useCore.getState().userToken;
 
@@ -32,12 +31,13 @@ const indexRoute = createRoute({
     } else {
       if (location.pathname === "/") {
         throw redirect({
-          to: "/dashboard",
+          to: "/cabinet",
         });
       }
     }
   },
 });
+
 export const authRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: "/auth",
@@ -49,13 +49,13 @@ export const loginRoute = createRoute({
   component: SignIn,
 });
 
-export const dashboardRoute = createRoute({
+export const cabinetRoute = createRoute({
   getParentRoute: () => rootRoute,
-  path: "/dashboard",
-  component: () => <div>Dashboard</div>,
+  path: "/cabinet",
+  component: Cabinet,
 });
 
 export const routeTree = rootRoute.addChildren([
-  indexRoute.addChildren([dashboardRoute]),
+  indexRoute.addChildren([cabinetRoute]),
   authRoute.addChildren([loginRoute]),
 ]);
