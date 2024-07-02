@@ -1,13 +1,11 @@
-import { Link, useLocation } from "@tanstack/react-router";
-import { Ellipsis, LogOut } from "lucide-react";
+import { useLocation } from "@tanstack/react-router";
+import { Ellipsis } from "lucide-react";
 
 // utils
 import { getMenuList } from "@/helpers/get-menu-list";
 import { cn } from "@/helpers/utils";
 
 // components
-import { logout } from "@/entities/user";
-import { Button } from "@/shared/ui/button";
 import { ScrollArea } from "@/shared/ui/scroll-area";
 import {
   Tooltip,
@@ -15,14 +13,14 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/shared/ui/tooltip";
-import { CollapseMenuButton } from "./collapse-menu-button";
+import { SidebarLogout } from "./logout";
+import { MenuList } from "./menu-list";
 
 interface MenuProps {
   isOpen: boolean | undefined;
 }
 
 export const Menu = ({ isOpen }: MenuProps) => {
-  const { handleLogout } = logout();
   const { pathname } = useLocation();
   const menuList = getMenuList(pathname);
 
@@ -52,86 +50,11 @@ export const Menu = ({ isOpen }: MenuProps) => {
               ) : (
                 <p className="pb-2"></p>
               )}
-              {menus.map(
-                ({ href, label, icon: Icon, active, submenus }, index) =>
-                  submenus.length === 0 ? (
-                    <div className="w-full" key={index}>
-                      <TooltipProvider disableHoverableContent>
-                        <Tooltip delayDuration={100}>
-                          <TooltipTrigger asChild>
-                            <Button
-                              variant={active ? "activeSidebarLink" : "ghost"}
-                              className="w-full justify-start h-10 mb-1"
-                              asChild
-                            >
-                              <Link to={href}>
-                                <span
-                                  className={cn(isOpen === false ? "" : "mr-4")}
-                                >
-                                  <Icon size={18} />
-                                </span>
-                                <p
-                                  className={cn(
-                                    "max-w-[200px] truncate",
-                                    isOpen === false
-                                      ? "-translate-x-96 opacity-0"
-                                      : "translate-x-0 opacity-100",
-                                  )}
-                                >
-                                  {label}
-                                </p>
-                              </Link>
-                            </Button>
-                          </TooltipTrigger>
-                          {isOpen === false && (
-                            <TooltipContent side="right">
-                              {label}
-                            </TooltipContent>
-                          )}
-                        </Tooltip>
-                      </TooltipProvider>
-                    </div>
-                  ) : (
-                    <div className="w-full" key={index}>
-                      <CollapseMenuButton
-                        icon={Icon}
-                        label={label}
-                        active={active}
-                        submenus={submenus}
-                        isOpen={isOpen}
-                      />
-                    </div>
-                  ),
-              )}
+              <MenuList menus={menus} />
             </li>
           ))}
           <li className="w-full grow flex items-end">
-            <TooltipProvider disableHoverableContent>
-              <Tooltip delayDuration={100}>
-                <TooltipTrigger asChild>
-                  <Button
-                    onClick={() => handleLogout()}
-                    variant="outline"
-                    className="w-full justify-center h-10 mt-5"
-                  >
-                    <span className={cn(isOpen === false ? "" : "mr-4")}>
-                      <LogOut size={18} />
-                    </span>
-                    <p
-                      className={cn(
-                        "whitespace-nowrap",
-                        isOpen === false ? "opacity-0 hidden" : "opacity-100",
-                      )}
-                    >
-                      Выйти
-                    </p>
-                  </Button>
-                </TooltipTrigger>
-                {isOpen === false && (
-                  <TooltipContent side="right">Выйти</TooltipContent>
-                )}
-              </Tooltip>
-            </TooltipProvider>
+            <SidebarLogout />
           </li>
         </ul>
       </nav>

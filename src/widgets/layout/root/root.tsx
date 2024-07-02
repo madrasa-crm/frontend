@@ -6,6 +6,7 @@ import { useCore } from "@/shared/model/use-core";
 
 // utils
 import { cn } from "@/helpers/utils";
+import { Header } from "../header/header";
 
 export const AdminPanelLayout = ({
   children,
@@ -17,14 +18,16 @@ export const AdminPanelLayout = ({
   return (
     <>
       <Sidebar />
-      <main
+
+      <div
         className={cn(
-          "min-h-[100vh]  transition-[margin-left] border ease-in-out duration-300",
+          "min-h-[100vh] transition-[margin-left] border ease-in-out duration-300 ",
           sidebarOpen === false ? "lg:ml-[90px]" : "lg:ml-72",
         )}
       >
-        {children}
-      </main>
+        <Header />
+        <main className="p-6">{children}</main>
+      </div>
     </>
   );
 };

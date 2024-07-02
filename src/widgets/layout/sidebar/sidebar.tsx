@@ -23,7 +23,7 @@ export const Sidebar = () => {
         <Link href="/dashboard">
           <AppLogo
             className={cn(
-              "font-bold text-lg whitespace-nowrap transition-[transform,opacity,display] ease-in-out duration-300",
+              "font-bold text-lg whitespace-nowrap transition-[transform,opacity,display] ease-in-out duration-300 ml-3 mt-3",
               sidebarOpen === false
                 ? "-translate-x-96 opacity-0 hidden"
                 : "translate-x-0 opacity-100",

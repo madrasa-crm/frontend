@@ -1,7 +1,6 @@
-import { ReactNode } from "@tanstack/react-router";
 import {
   Bookmark,
-  Group,
+  Group as GroupIcon,
   KeySquare,
   LayoutGrid,
   LineChart,
@@ -11,25 +10,8 @@ import {
   UsersRound,
 } from "lucide-react";
 
-type Submenu = {
-  href: string;
-  label: string;
-  active: boolean;
-  icon: ReactNode;
-};
-
-type Menu = {
-  href: string;
-  label: string;
-  active: boolean;
-  icon: ReactNode;
-  submenus: Submenu[];
-};
-
-type Group = {
-  groupLabel: string;
-  menus: Menu[];
-};
+// types
+import type { Group } from "@/shared/model/use-core/types/menu";
 
 export function getMenuList(pathname: string): Group[] {
   return [
@@ -49,9 +31,9 @@ export function getMenuList(pathname: string): Group[] {
       groupLabel: "",
       menus: [
         {
-          href: "/cabinet",
+          href: "/cabinet/dashboard",
           label: "Дашборды",
-          active: pathname.includes("/cabinet"),
+          active: pathname.includes("/cabinet/dashboard"),
           icon: LayoutGrid,
           submenus: [],
         },
@@ -75,7 +57,7 @@ export function getMenuList(pathname: string): Group[] {
             },
             {
               href: "/cabinet/roles",
-              label: "Разрешении",
+              label: "Роли и разрешении",
               active: pathname === "/cabinet/roles",
               icon: Lock,
             },
@@ -85,7 +67,7 @@ export function getMenuList(pathname: string): Group[] {
           href: "/cabinet/groups",
           label: "Группы",
           active: pathname.includes("/groups"),
-          icon: Group,
+          icon: GroupIcon,
           submenus: [],
         },
         {
