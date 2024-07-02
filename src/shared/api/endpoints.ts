@@ -1,5 +1,9 @@
 export const endpoints = {
   auth: {
-    signIn: "/auth/user/login",
+    signIn: "api/auth/login",
+  },
+  role: {
+    getAll: "api/role",
+    createNew: "api/role",
   },
 } as const;

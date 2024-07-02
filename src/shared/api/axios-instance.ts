@@ -2,6 +2,7 @@ import axios, { AxiosInstance } from "axios";
 
 // helpers
 import { getBaseUrlByMode } from "@/helpers/get-mode";
+import { onRequest } from "./on-request";
 
 export const instance: AxiosInstance = axios.create({
   baseURL: getBaseUrlByMode(import.meta.env.MODE),
@@ -12,3 +13,5 @@ export const instance: AxiosInstance = axios.create({
     "Access-Control-Allow-Origin": "*",
   },
 });
+
+instance.interceptors.request.use(onRequest);

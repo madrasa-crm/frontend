@@ -3,7 +3,7 @@ import { Suspense } from "react";
 
 // components
 import { Toaster } from "@/shared/ui/sonner/sonner";
-import { SuspenseLoader } from "@/shared/ui/suspense-loader";
+// import { ProgressLoader } from "@/shared/ui/suspense-loader";
 
 // config
 import { RootProvider } from "./providers";
@@ -12,9 +12,11 @@ import { RootProvider } from "./providers";
 import "./styles/globals.css";
 
 function App() {
+  // const LazyLoad = ProgressLoader();
+
   return (
     <RootProvider>
-      <Suspense fallback={<SuspenseLoader />}>
+      <Suspense>
         <Outlet />
       </Suspense>
       <Toaster />

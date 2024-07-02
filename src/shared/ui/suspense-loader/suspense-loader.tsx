@@ -1,9 +1,18 @@
-import { CircleLoader } from "@/shared/icons/circle-loader";
+import NProgress from "nprogress";
+import { useEffect } from "react";
 
-export const SuspenseLoader = () => {
-  return (
-    <section className="min-h-screen flex items-center justify-center">
-      <CircleLoader />
-    </section>
-  );
+export const ProgressLoader = () => {
+  const LazyLoad = () => {
+    useEffect(() => {
+      NProgress.start();
+
+      return () => {
+        NProgress.done();
+      };
+    }, []);
+
+    return null;
+  };
+
+  return LazyLoad;
 };
