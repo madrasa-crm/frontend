@@ -18,7 +18,8 @@ import {
   FormLabel,
   FormMessage,
 } from "@/shared/ui/form";
-import { Input } from "@/shared/ui/input";
+import { PasswordInput } from "@/shared/ui/password-input";
+import { PhoneInput } from "@/shared/ui/phone-number-input";
 
 // api
 import { signIn } from "../api/sign-in";
@@ -54,7 +55,11 @@ export const SignInForm = () => {
                 <FormItem>
                   <FormLabel>Введите логин</FormLabel>
                   <FormControl>
-                    <Input placeholder="+998900443773" {...field} />
+                    <PhoneInput
+                      value={field.value}
+                      onChange={field.onChange}
+                      onBlur={field.onBlur}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -67,7 +72,13 @@ export const SignInForm = () => {
                 <FormItem>
                   <FormLabel>Введите пароль</FormLabel>
                   <FormControl>
-                    <Input placeholder="12345678" type="password" {...field} />
+                    <PasswordInput
+                      value={field.value}
+                      onChange={field.onChange}
+                      onBlur={field.onBlur}
+                      ref={field.ref}
+                    />
+                    {/* <Input placeholder="12345678" type="password" {...field} /> */}
                   </FormControl>
                   <FormMessage />
                 </FormItem>
