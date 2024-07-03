@@ -22,5 +22,6 @@ export default defineConfig(({ mode }) => ({
         secure: false,
       },
     },
+    port: 3000,
   },
 }));
