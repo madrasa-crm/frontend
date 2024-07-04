@@ -10,4 +10,8 @@ export const endpoints = {
     getAll: "api/user/admins",
     createNew: "api/auth/admin/register",
   },
+  teacher: {
+    getAll: "api/teacher",
+    createNew: "api/auth/teacher/register",
+  },
 } as const;

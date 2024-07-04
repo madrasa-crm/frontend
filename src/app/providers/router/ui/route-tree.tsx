@@ -13,6 +13,7 @@ const SignIn = lazy(() => import("@/pages/sign-in"));
 const Cabinet = lazy(() => import("@/pages/cabinet"));
 const Role = lazy(() => import("@/pages/role"));
 const Admin = lazy(() => import("@/pages/admin"));
+const Teacher = lazy(() => import("@/pages/teacher"));
 
 const rootRoute = createRootRoute({
   component: () => <App />,
@@ -66,8 +67,8 @@ export const unauthorizedRoute = createRoute({
 
 export const adminRoute = createRoute({
   getParentRoute: () => cabinetRoute,
-  path: "/admin",
-  component: Admin,
+  path: "/",
+  // component: Admin,
   beforeLoad: async () => {
     const token = useCore.getState().userToken;
     const decodedToken = jwtDecode(token!);
@@ -81,15 +82,30 @@ export const adminRoute = createRoute({
   },
 });
 
+export const allAdminsRoute = createRoute({
+  getParentRoute: () => adminRoute,
+  path: "/admins",
+  component: Admin,
+});
+
 export const roleRoute = createRoute({
-  getParentRoute: () => cabinetRoute,
+  getParentRoute: () => adminRoute,
   path: "/roles",
   component: Role,
 });
 
+export const teacherRoute = createRoute({
+  getParentRoute: () => adminRoute,
+  path: "/teachers",
+  component: Teacher,
+});
+
 export const routeTree = rootRoute.addChildren([
   indexRoute.addChildren([
-    cabinetRoute.addChildren([unauthorizedRoute, roleRoute, adminRoute]),
+    cabinetRoute.addChildren([
+      unauthorizedRoute,
+      adminRoute.addChildren([allAdminsRoute, roleRoute, teacherRoute]),
+    ]),
   ]),
   authRoute.addChildren([loginRoute]),
 ]);

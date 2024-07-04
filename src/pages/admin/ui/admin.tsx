@@ -7,7 +7,7 @@ import { Button } from "@/shared/ui/button";
 import { TypographyH2, TypographyP } from "@/shared/ui/typography";
 import { CreateNewAdminModal } from "@/widgets/admin/create-new";
 
-const Role = () => {
+const Admin = () => {
   const setIsOpenModal = useAdmin((state) => state.setIsOpenModal);
   return (
     <section className="space-y-6">
@@ -24,4 +24,4 @@ const Role = () => {
   );
 };
 
-export default Role;
+export default Admin;
