@@ -1,4 +1,5 @@
 import { createRootRoute, createRoute, redirect } from "@tanstack/react-router";
+import { jwtDecode } from "jwt-decode";
 import { lazy } from "react";
 
 // store
@@ -11,6 +12,7 @@ import App from "@/app/app";
 const SignIn = lazy(() => import("@/pages/sign-in"));
 const Cabinet = lazy(() => import("@/pages/cabinet"));
 const Role = lazy(() => import("@/pages/role"));
+const Admin = lazy(() => import("@/pages/admin"));
 
 const rootRoute = createRootRoute({
   component: () => <App />,
@@ -56,6 +58,29 @@ export const cabinetRoute = createRoute({
   component: Cabinet,
 });
 
+export const unauthorizedRoute = createRoute({
+  getParentRoute: () => cabinetRoute,
+  path: "/unauthorized",
+  component: () => <div>Unauthorized</div>,
+});
+
+export const adminRoute = createRoute({
+  getParentRoute: () => cabinetRoute,
+  path: "/admin",
+  component: Admin,
+  beforeLoad: async () => {
+    const token = useCore.getState().userToken;
+    const decodedToken = jwtDecode(token!);
+
+    if ((decodedToken as any).role !== 4) {
+      throw redirect({
+        to: "/cabinet/unauthorized",
+      });
+    }
+    // if (decodedToken.)
+  },
+});
+
 export const roleRoute = createRoute({
   getParentRoute: () => cabinetRoute,
   path: "/roles",
@@ -63,6 +88,8 @@ export const roleRoute = createRoute({
 });
 
 export const routeTree = rootRoute.addChildren([
-  indexRoute.addChildren([cabinetRoute.addChildren([roleRoute])]),
+  indexRoute.addChildren([
+    cabinetRoute.addChildren([unauthorizedRoute, roleRoute, adminRoute]),
+  ]),
   authRoute.addChildren([loginRoute]),
 ]);

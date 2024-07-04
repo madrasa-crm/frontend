@@ -6,4 +6,8 @@ export const endpoints = {
     getAll: "api/role",
     createNew: "api/role",
   },
+  admin: {
+    getAll: "api/user/admins",
+    createNew: "api/auth/admin/register",
+  },
 } as const;
