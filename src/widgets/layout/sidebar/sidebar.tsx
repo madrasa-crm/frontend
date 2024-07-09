@@ -19,8 +19,8 @@ export const Sidebar = () => {
       )}
     >
       <SidebarToggle isOpen={sidebarOpen} setIsOpen={setSidebarOpen} />
-      <div className="relative h-full flex flex-col  overflow-y-auto shadow-md dark:shadow-zinc-800">
-        <Link href="/dashboard" className="px-4 py-3.5">
+      <div className="relative h-full flex flex-col px-3 py-4 overflow-y-auto shadow-md dark:shadow-zinc-800">
+        <Link to="/cabinet">
           <AppLogo
             className={cn(
               "font-bold text-lg whitespace-nowrap transition-[transform,opacity,display] ease-in-out duration-300 ",

@@ -1,4 +1,5 @@
 import { createRootRoute, createRoute, redirect } from "@tanstack/react-router";
+import { jwtDecode } from "jwt-decode";
 import { lazy } from "react";
 
 // store
@@ -11,6 +12,9 @@ import App from "@/app/app";
 const SignIn = lazy(() => import("@/pages/sign-in"));
 const Cabinet = lazy(() => import("@/pages/cabinet"));
 const Role = lazy(() => import("@/pages/role"));
+const Admin = lazy(() => import("@/pages/admin"));
+const Teacher = lazy(() => import("@/pages/teacher"));
+const Subject = lazy(() => import("@/pages/subject"));
 
 const rootRoute = createRootRoute({
   component: () => <App />,
@@ -56,13 +60,64 @@ export const cabinetRoute = createRoute({
   component: Cabinet,
 });
 
-export const roleRoute = createRoute({
+export const unauthorizedRoute = createRoute({
   getParentRoute: () => cabinetRoute,
+  path: "/unauthorized",
+  component: () => <div>Unauthorized</div>,
+});
+
+export const adminRoute = createRoute({
+  getParentRoute: () => cabinetRoute,
+  path: "/",
+  // component: Admin,
+  beforeLoad: async () => {
+    const token = useCore.getState().userToken;
+    const decodedToken = jwtDecode(token!);
+
+    if ((decodedToken as any).role !== 4) {
+      throw redirect({
+        to: "/cabinet/unauthorized",
+      });
+    }
+    // if (decodedToken.)
+  },
+});
+
+export const allAdminsRoute = createRoute({
+  getParentRoute: () => adminRoute,
+  path: "/admins",
+  component: Admin,
+});
+
+export const roleRoute = createRoute({
+  getParentRoute: () => adminRoute,
   path: "/roles",
   component: Role,
 });
 
+export const teacherRoute = createRoute({
+  getParentRoute: () => adminRoute,
+  path: "/teachers",
+  component: Teacher,
+});
+
+export const subjectRoute = createRoute({
+  getParentRoute: () => adminRoute,
+  path: "/subjects",
+  component: Subject,
+});
+
 export const routeTree = rootRoute.addChildren([
-  indexRoute.addChildren([cabinetRoute.addChildren([roleRoute])]),
+  indexRoute.addChildren([
+    cabinetRoute.addChildren([
+      unauthorizedRoute,
+      adminRoute.addChildren([
+        allAdminsRoute,
+        roleRoute,
+        teacherRoute,
+        subjectRoute,
+      ]),
+    ]),
+  ]),
   authRoute.addChildren([loginRoute]),
 ]);
