@@ -14,6 +14,7 @@ const Cabinet = lazy(() => import("@/pages/cabinet"));
 const Role = lazy(() => import("@/pages/role"));
 const Admin = lazy(() => import("@/pages/admin"));
 const Teacher = lazy(() => import("@/pages/teacher"));
+const Subject = lazy(() => import("@/pages/subject"));
 
 const rootRoute = createRootRoute({
   component: () => <App />,
@@ -100,11 +101,22 @@ export const teacherRoute = createRoute({
   component: Teacher,
 });
 
+export const subjectRoute = createRoute({
+  getParentRoute: () => adminRoute,
+  path: "/subjects",
+  component: Subject,
+});
+
 export const routeTree = rootRoute.addChildren([
   indexRoute.addChildren([
     cabinetRoute.addChildren([
       unauthorizedRoute,
-      adminRoute.addChildren([allAdminsRoute, roleRoute, teacherRoute]),
+      adminRoute.addChildren([
+        allAdminsRoute,
+        roleRoute,
+        teacherRoute,
+        subjectRoute,
+      ]),
     ]),
   ]),
   authRoute.addChildren([loginRoute]),
