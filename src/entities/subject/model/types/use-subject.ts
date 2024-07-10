@@ -1,7 +1,7 @@
 export interface State {
-  isActionModalOpen: boolean;
+  isModalOpen: boolean;
 }
 
 export interface Actions {
-  setIsActionModalOpen: (isOpen: boolean) => void;
+  setIsModalOpen: (isOpen: boolean) => void;
 }
