@@ -18,4 +18,8 @@ export const endpoints = {
     getAll: "api/subject",
     createNew: "api/subject",
   },
+  student: {
+    getAll: "api/student",
+    createNew: "api/student",
+  },
 } as const;

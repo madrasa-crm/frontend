@@ -15,6 +15,7 @@ const Role = lazy(() => import("@/pages/role"));
 const Admin = lazy(() => import("@/pages/admin"));
 const Teacher = lazy(() => import("@/pages/teacher"));
 const Subject = lazy(() => import("@/pages/subject"));
+const Student = lazy(() => import("@/pages/student"));
 
 const rootRoute = createRootRoute({
   component: () => <App />,
@@ -95,16 +96,37 @@ export const roleRoute = createRoute({
   component: Role,
 });
 
-export const teacherRoute = createRoute({
+export const teacherRouteForAdmins = createRoute({
   getParentRoute: () => adminRoute,
   path: "/teachers",
   component: Teacher,
+});
+
+export const teacherRoute = createRoute({
+  getParentRoute: () => cabinetRoute,
+  id: "teacher",
+  beforeLoad: async () => {
+    const token = useCore.getState().userToken;
+    const decodedToken = jwtDecode(token!);
+
+    if (![2, 3, 4].includes((decodedToken as any).role)) {
+      throw redirect({
+        to: "/cabinet/unauthorized",
+      });
+    }
+  },
 });
 
 export const subjectRoute = createRoute({
   getParentRoute: () => adminRoute,
   path: "/subjects",
   component: Subject,
+});
+
+export const studentRoute = createRoute({
+  getParentRoute: () => teacherRoute,
+  path: "/students",
+  component: Student,
 });
 
 export const routeTree = rootRoute.addChildren([
@@ -114,9 +136,10 @@ export const routeTree = rootRoute.addChildren([
       adminRoute.addChildren([
         allAdminsRoute,
         roleRoute,
-        teacherRoute,
+        teacherRouteForAdmins,
         subjectRoute,
       ]),
+      teacherRoute.addChildren([studentRoute]),
     ]),
   ]),
   authRoute.addChildren([loginRoute]),
