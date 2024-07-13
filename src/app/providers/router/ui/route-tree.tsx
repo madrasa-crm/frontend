@@ -15,11 +15,11 @@ const SignIn = lazy(() => import("@/pages/sign-in"));
 const Cabinet = lazy(() => import("@/pages/cabinet"));
 const Role = lazy(() => import("@/pages/role"));
 const Admin = lazy(() => import("@/pages/admin"));
-const Teacher = lazy(() => import("@/pages/teacher"));
+const Teacher = lazy(() => import("@/pages/teacher/ui/teacher"));
 const Subject = lazy(() => import("@/pages/subject"));
 const Student = lazy(() => import("@/pages/student"));
-// eslint-disable-next-line react-refresh/only-export-components
 const Rating = lazy(() => import("@/pages/rating"));
+const NewTeacher = lazy(() => import("@/pages/teacher/ui/new-teacher"));
 
 const rootRoute = createRootRoute({
   component: () => <App />,
@@ -104,6 +104,12 @@ export const teacherRouteForAdmins = createRoute({
   component: Teacher,
 });
 
+export const newTeacherRoute = createRoute({
+  getParentRoute: () => adminRoute,
+  path: "/teachers/new",
+  component: NewTeacher,
+});
+
 export const teacherRoute = createRoute({
   getParentRoute: () => cabinetRoute,
   id: "teacher",
@@ -112,7 +118,7 @@ export const teacherRoute = createRoute({
     const decodedToken = jwtDecode(token!);
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    if (![2, 3, 4].includes((decodedToken as unknownneverunknownnever).role)) {
+    if (![2, 3, 4].includes((decodedToken as any).role)) {
       throw redirect({
         to: "/cabinet/unauthorized",
       });
@@ -145,7 +151,7 @@ export const routeTree = rootRoute.addChildren([
       adminRoute.addChildren([
         allAdminsRoute,
         roleRoute,
-        teacherRouteForAdmins,
+        teacherRouteForAdmins.addChildren([newTeacherRoute]),
         subjectRoute,
       ]),
       teacherRoute.addChildren([studentRoute, ratingRoute]),

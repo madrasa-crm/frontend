@@ -24,6 +24,7 @@ import {
 import { Input } from "@/shared/ui/input";
 import { PasswordInput } from "@/shared/ui/password-input";
 import { PhoneInput } from "@/shared/ui/phone-number-input";
+import { CancelButton } from "@/widgets/cancel-button";
 
 export const CreateNewTeacher = () => {
   const setIsOpenModal = useTeacher((state) => state.setIsOpenModal);
@@ -115,10 +116,13 @@ export const CreateNewTeacher = () => {
             </FormItem>
           )}
         />
-        <Button type="submit" disabled={isPending}>
-          {isPending ? <CircleLoader className="w-6 h-6" /> : null}
-          Создать
-        </Button>
+        <div className="flex gap-6 justify-end items-center">
+          <CancelButton variant="destructive" to="/cabinet/teachers" />
+          <Button className="w-max" type="submit" disabled={isPending}>
+            {isPending ? <CircleLoader className="w-6 h-6" /> : null}
+            Создать
+          </Button>
+        </div>
       </form>
     </FormProvider>
   );
