@@ -1,3 +1,5 @@
+/** eslint-disable react-refresh/only-export-components */
+/** eslint-disable @typescript-eslint/no-explicit-any */
 import { createRootRoute, createRoute, redirect } from "@tanstack/react-router";
 import { jwtDecode } from "jwt-decode";
 import { lazy } from "react";
@@ -16,6 +18,8 @@ const Admin = lazy(() => import("@/pages/admin"));
 const Teacher = lazy(() => import("@/pages/teacher"));
 const Subject = lazy(() => import("@/pages/subject"));
 const Student = lazy(() => import("@/pages/student"));
+// eslint-disable-next-line react-refresh/only-export-components
+const Rating = lazy(() => import("@/pages/rating"));
 
 const rootRoute = createRootRoute({
   component: () => <App />,
@@ -70,7 +74,6 @@ export const unauthorizedRoute = createRoute({
 export const adminRoute = createRoute({
   getParentRoute: () => cabinetRoute,
   path: "/",
-  // component: Admin,
   beforeLoad: async () => {
     const token = useCore.getState().userToken;
     const decodedToken = jwtDecode(token!);
@@ -80,7 +83,6 @@ export const adminRoute = createRoute({
         to: "/cabinet/unauthorized",
       });
     }
-    // if (decodedToken.)
   },
 });
 
@@ -109,7 +111,8 @@ export const teacherRoute = createRoute({
     const token = useCore.getState().userToken;
     const decodedToken = jwtDecode(token!);
 
-    if (![2, 3, 4].includes((decodedToken as any).role)) {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    if (![2, 3, 4].includes((decodedToken as unknownneverunknownnever).role)) {
       throw redirect({
         to: "/cabinet/unauthorized",
       });
@@ -129,6 +132,12 @@ export const studentRoute = createRoute({
   component: Student,
 });
 
+export const ratingRoute = createRoute({
+  getParentRoute: () => teacherRoute,
+  path: "/rating",
+  component: Rating,
+});
+
 export const routeTree = rootRoute.addChildren([
   indexRoute.addChildren([
     cabinetRoute.addChildren([
@@ -139,7 +148,7 @@ export const routeTree = rootRoute.addChildren([
         teacherRouteForAdmins,
         subjectRoute,
       ]),
-      teacherRoute.addChildren([studentRoute]),
+      teacherRoute.addChildren([studentRoute, ratingRoute]),
     ]),
   ]),
   authRoute.addChildren([loginRoute]),
