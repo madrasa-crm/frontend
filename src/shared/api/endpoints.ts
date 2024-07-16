@@ -18,4 +18,12 @@ export const endpoints = {
     getAll: "api/subject",
     createNew: "api/subject",
   },
+  student: {
+    getAll: "api/student",
+    createNew: "api/student",
+  },
+  rating: {
+    getAll: "/api/grade",
+    createNew: "api/grade",
+  },
 } as const;
