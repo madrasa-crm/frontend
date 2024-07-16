@@ -12,6 +12,9 @@ dist
 dist-ssr
 *.local
 
+# zip files
+*.zip
+
 # environment variables
 .env
 .env.development.local

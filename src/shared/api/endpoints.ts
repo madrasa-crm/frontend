@@ -21,5 +21,12 @@ export const endpoints = {
   group: {
     getAll: "api/group",
     createNew: "api/group",
+  student: {
+    getAll: "api/student",
+    createNew: "api/student",
+  },
+  rating: {
+    getAll: "/api/grade",
+    createNew: "api/grade",
   },
 } as const;

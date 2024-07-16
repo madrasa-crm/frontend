@@ -85,9 +85,9 @@ export function getMenuList(pathname: string): Group[] {
           submenus: [],
         },
         {
-          href: "/cabinet/attendance",
+          href: "/cabinet/schedule",
           label: "Графики",
-          active: pathname.includes("/attendance"),
+          active: pathname.includes("/schedule"),
           icon: LineChart,
           submenus: [],
         },

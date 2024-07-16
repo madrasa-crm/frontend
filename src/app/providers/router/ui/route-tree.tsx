@@ -1,3 +1,5 @@
+/** eslint-disable react-refresh/only-export-components */
+/** eslint-disable @typescript-eslint/no-explicit-any */
 import { createRootRoute, createRoute, redirect } from "@tanstack/react-router";
 import { jwtDecode } from "jwt-decode";
 import { lazy } from "react";
@@ -13,9 +15,12 @@ const SignIn = lazy(() => import("@/pages/sign-in"));
 const Cabinet = lazy(() => import("@/pages/cabinet"));
 const Role = lazy(() => import("@/pages/role"));
 const Admin = lazy(() => import("@/pages/admin"));
-const Teacher = lazy(() => import("@/pages/teacher"));
+const Teacher = lazy(() => import("@/pages/teacher/ui/teacher"));
 const Subject = lazy(() => import("@/pages/subject"));
 const Group = lazy(() => import("@/pages/group"));
+const Student = lazy(() => import("@/pages/student"));
+const Rating = lazy(() => import("@/pages/rating"));
+const NewTeacher = lazy(() => import("@/pages/teacher/ui/new-teacher"));
 
 const rootRoute = createRootRoute({
   component: () => <App />,
@@ -70,7 +75,6 @@ export const unauthorizedRoute = createRoute({
 export const adminRoute = createRoute({
   getParentRoute: () => cabinetRoute,
   path: "/",
-  // component: Admin,
   beforeLoad: async () => {
     const token = useCore.getState().userToken;
     const decodedToken = jwtDecode(token!);
@@ -80,7 +84,6 @@ export const adminRoute = createRoute({
         to: "/cabinet/unauthorized",
       });
     }
-    // if (decodedToken.)
   },
 });
 
@@ -96,7 +99,7 @@ export const roleRoute = createRoute({
   component: Role,
 });
 
-export const teacherRoute = createRoute({
+export const teacherRouteForAdmins = createRoute({
   getParentRoute: () => adminRoute,
   path: "/teachers",
   component: Teacher,
@@ -106,12 +109,44 @@ export const groupRoute = createRoute({
   getParentRoute: () => adminRoute,
   path: "/groups",
   component: Group,
+export const newTeacherRoute = createRoute({
+  getParentRoute: () => adminRoute,
+  path: "/teachers/new",
+  component: NewTeacher,
+});
+
+export const teacherRoute = createRoute({
+  getParentRoute: () => cabinetRoute,
+  id: "teacher",
+  beforeLoad: async () => {
+    const token = useCore.getState().userToken;
+    const decodedToken = jwtDecode(token!);
+
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    if (![2, 3, 4].includes((decodedToken as any).role)) {
+      throw redirect({
+        to: "/cabinet/unauthorized",
+      });
+    }
+  },
 });
 
 export const subjectRoute = createRoute({
   getParentRoute: () => adminRoute,
   path: "/subjects",
   component: Subject,
+});
+
+export const studentRoute = createRoute({
+  getParentRoute: () => teacherRoute,
+  path: "/students",
+  component: Student,
+});
+
+export const ratingRoute = createRoute({
+  getParentRoute: () => teacherRoute,
+  path: "/rating",
+  component: Rating,
 });
 
 export const routeTree = rootRoute.addChildren([
@@ -121,10 +156,11 @@ export const routeTree = rootRoute.addChildren([
       adminRoute.addChildren([
         allAdminsRoute,
         roleRoute,
-        teacherRoute,
+        teacherRouteForAdmins.addChildren([newTeacherRoute]),
         subjectRoute,
         groupRoute,
       ]),
+      teacherRoute.addChildren([studentRoute, ratingRoute]),
     ]),
   ]),
   authRoute.addChildren([loginRoute]),
