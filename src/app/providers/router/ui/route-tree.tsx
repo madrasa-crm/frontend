@@ -17,6 +17,7 @@ const Role = lazy(() => import("@/pages/role"));
 const Admin = lazy(() => import("@/pages/admin"));
 const Teacher = lazy(() => import("@/pages/teacher/ui/teacher"));
 const Subject = lazy(() => import("@/pages/subject"));
+const Group = lazy(() => import("@/pages/group"));
 const Student = lazy(() => import("@/pages/student"));
 const Rating = lazy(() => import("@/pages/rating"));
 const NewTeacher = lazy(() => import("@/pages/teacher/ui/new-teacher"));
@@ -104,6 +105,10 @@ export const teacherRouteForAdmins = createRoute({
   component: Teacher,
 });
 
+export const groupRoute = createRoute({
+  getParentRoute: () => adminRoute,
+  path: "/groups",
+  component: Group,
 export const newTeacherRoute = createRoute({
   getParentRoute: () => adminRoute,
   path: "/teachers/new",
@@ -153,6 +158,7 @@ export const routeTree = rootRoute.addChildren([
         roleRoute,
         teacherRouteForAdmins.addChildren([newTeacherRoute]),
         subjectRoute,
+        groupRoute,
       ]),
       teacherRoute.addChildren([studentRoute, ratingRoute]),
     ]),
