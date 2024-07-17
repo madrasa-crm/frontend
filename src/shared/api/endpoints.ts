@@ -18,4 +18,8 @@ export const endpoints = {
     getAll: "api/subject",
     createNew: "api/subject",
   },
+  group: {
+    getAll: "api/group",
+    createNew: "api/group",
+  },
 } as const;
